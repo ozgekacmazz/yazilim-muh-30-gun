@@ -35,6 +35,27 @@ def print_users(file_path):
         print(f"- {user['name']} ({user['age']} yaşında)")
 
 
+# 4 Tekrar Eden Kullanıcıları Sil
+def remove_duplicates(file_path):
+    data = read_json(file_path)
+    unique_users = []
+    seen = set()  # Daha önce eklenen kullanıcıları takip eden bir set
+
+    for user in data["users"]:
+        user_tuple = (user["name"], user["age"])  # İsme ve yaşa göre kontrol
+        if user_tuple not in seen:
+            seen.add(user_tuple)
+            unique_users.append(user)
+
+    # Temizlenmiş listeyi geri yaz
+    data["users"] = unique_users
+    with open(file_path, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4, ensure_ascii=False)
+
+    print(" Tekrar eden kullanıcılar temizlendi!")
+
+
+
 #  Fonksiyonları Çalıştır
 json_file = "data.json"
 
